@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% load static %}
+
+<title>
+        {%block title %} Pagina Principal{% endblock %}
+</title>
+
+{% block content %}
+
+<section class="info">
+  <h1 id="AVISO">{{querynom}}</h1>
+    <section id="DATOS" style="display: none" class="info">
+
+      <div class="columnaPerfil">
+        <img src="{% static 'foto.png' %}" alt="" class="foto"> 
+         
+      </div>
+ 
+      <div class="columnaDatosIndex">
+        
+        <ul id="notifylist">
+            
+        </ul>
+         
+      </div>
+
+      <div class="btndiv"><button class="button" onclick="location.href='{% url 'admin:index' %}'" type="button" >ADMIN</button>   
+      <button  class="button" onclick="location.href='{% url 'index' %}'" type="button" enabled> INICIO </button>
+      </div>
+   
+    </section>
+    </section>      
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const webSocketBridge = new channels.WebSocketBridge();
+        const nl = document.querySelector("#notifylist");
+          
+        webSocketBridge.connect('/notifications/');
+        webSocketBridge.listen(function(action, stream) {
+        console.log("RESPONSE:", action);
+        if(action.event == "logeo") {        
+              document.getElementById("AVISO").style.display = "none";       
+              document.getElementById("DATOS").style.display = "inline";
+              var el = document.createElement("li");
+              el.innerHTML = `Numero de empleado:<br> <b>${action.username}</b><br>  Nombre de empleado:<br> <b>${action.firstname}</b>`;
+              nl.appendChild(el);
+              
+              
+              //for (i = 0; i < myObj.length; i++) {
+              //  var el = document.createElement("li");
+              ///el.innerHTML = `New user <b>${myObj[i]}</b> has joined!`;
+             //nl.appendChild(el);   
+             //}     
+            }
+          })
+        document.ws = webSocketBridge; /* for debugging */
+        })
+</script>   
+{% endblock %}
+

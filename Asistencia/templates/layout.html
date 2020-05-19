@@ -1,0 +1,51 @@
+{% load static %}
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {%block title %} {% endblock %}
+        </title>
+        <link rel="stylesheet" href="{% static '/css/estilo.css' %}">
+        <script src="{% static '/channels/js/websocketbridge.js' %}" type="text/javascript"></script>
+    </head>
+
+    <body>
+    <!-- Contenedor principal -->
+    <div> 
+        <!-- Header -->
+        <header class="header">
+            <img src="{% static 'logo.png' %}" width="894" height="898" alt=""/>
+            <h4 class="titulo">INTITUTO TECNOLOGICO SUPERIOR DE LERDO - SISTEMA DE ASISTENCIA</h4>
+        </header>
+        
+        {% block content %} 
+        
+        {% endblock %}
+     
+    <!-- Footer  -->
+        <footer id="creadores">
+        
+           <p class="creadores"> Creado por 
+            <br>
+            <ul class="creadores">  
+                <li>Estrada Díaz Jesús Roberto.</li>
+                <li>Fierro Cantú Manuel Alejandro.</li>
+                <li>González Cabral Gerardo.</li>
+                <li>Gutiérrez Rodríguez Nora Elizabeth.</li>
+                <li>Luevanos Garcia Vanessa.</li>
+            </ul>
+          </p>
+            
+        </footer>
+        <!-- copyrith Section -->
+        <div class="copyright">&copy;2020 - <strong>Proyecto Integrador KeyNCheck</strong></div>
+        </div>
+    <!-- Contenedor principal -->
+    
+    </body>
+
+</html>

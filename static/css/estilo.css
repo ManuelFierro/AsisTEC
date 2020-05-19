@@ -1,0 +1,324 @@
+@charset "UTF-8";
+/* Body */
+body {
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
+	background-color: rgb(255,250,240);
+	margin: 0;
+}
+
+/* Header */
+header {
+	margin-top: -2%;
+	width: 100%;
+	height: 100px;
+	background-color: rgb(150,50,50);
+	border-bottom: 1px solid rgb(255,250,240);
+}
+
+.header img {
+  float: left;
+  width: 80px;
+  height: 80px;
+  margin-top: 10px;
+  margin-left: 10px;
+  background: rgb(150,50,50);
+}
+
+.titulo {
+	color: rgb(255,250,240);
+	font-weight: bold;
+	margin-left: auto;
+	letter-spacing: 4px;
+	margin-right: auto;
+	text-align: center;
+	padding-top: 15px;
+	line-height: 2em;
+	font-size: 22px;
+}
+
+/* Seccion principal*/
+
+/* Informacion  background-color: rgb(255,250,240);*/
+
+.info {
+	background-color: rgb(255,250,240);
+	color: rgb(150,50,50);
+	display :inline;
+}
+
+.foto {
+	width: 30%;
+	padding-bottom: 20px;
+}
+
+.info h1{
+	font-size: 50px;
+	margin-top: 170px;	
+	margin-left: 600px;	
+}
+
+.columnaPerfil {
+	/*background-color: black;*/
+	width: 50%;
+	text-align: center;
+	margin-left: 200px;
+	margin-top: 30px;
+	float: left;
+}
+
+.columnaDatosIndex{
+	width: 25%;
+	margin-top: 70px ;
+	margin-left: -350px;
+	float: left;	
+}
+
+.columnaDatosLista{
+	width: 25%;
+	margin-top: 70px ;
+	margin-left: -350px;
+	float: left;	
+}
+
+.columnaDatosLista li,.columnaDatosIndex li{
+	list-style-type: none;	
+}
+
+.columnaAlumnos{
+	width: 25%;
+	margin-top: 70px ;
+	margin-left: -120px;
+	margin-bottom: 20px ;
+	float: left;	
+}
+
+.tiempo p{
+	font-weight: 900;
+	text-align: center;
+	padding-bottom: -30px;
+}
+
+.tiempo span{
+	font-size: xx-large;
+}
+
+/* Tablas */
+table
+{
+	text-align: center;
+	color: rgb(255,250,240);
+}
+
+table th
+{
+	background: rgb(150,50,50);;
+}
+table hd
+{
+	background-color: #B67F7F;
+}
+
+table td
+{
+	background-color: #B67F7F;
+}
+
+/* ------------------------ */
+
+.asist
+{
+	background-color: rgb(150,50,50);
+	text-align: center;
+	width: 70%;
+	color: rgb(255,250,240);
+	padding: 1px;
+	margin: 0 auto;
+}
+
+.asist li{
+	list-style-type: none;	
+	padding-bottom: 2px;
+	
+}
+
+/* Botones */
+.btndivizq {
+	padding-bottom: 50px;
+	margin: 0 auto;
+	border-radius: 0px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	color: rgb(255,250,240);
+}
+
+.btndiv {
+	margin-left: 30%;
+	vertical-align: middle;
+	border-radius: 0px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	color: rgb(255,250,240);
+	display: inline;
+}
+
+.button {
+	width: 200px;
+	margin-right: 80px;
+	margin-left: 20px;
+	padding-top: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 20px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 2px;
+	border: 3px solid rgb(150,50,50);
+	color: rgb(255,250,240);
+	background-color: rgb(150,50,50);
+}
+.button:hover {
+	background-color: rgb(255,250,240);
+	color: rgb(150,50,50);
+	cursor: pointer;
+}
+/* Botones */
+
+/* footer */
+footer {
+	background-color: rgb(150,50,50);
+	margin-top: 10px;
+	padding-top: 20px;
+	padding-bottom: 20PX;
+}
+
+.copyright {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #717070;
+	color: rgb(255, 255, 255);
+	text-transform: uppercase;
+	font-weight: lighter;
+	letter-spacing: 2px;
+	border-top-width: 2px;
+}
+
+.creadores {
+	font-size: larger;
+	text-align: center;
+	margin: 0;
+	letter-spacing: 4px;
+	font-weight: bolder;
+	color: rgb(255,250,240)	;
+	
+}
+.creadores li {
+	font-weight: lighter;
+	font-size: smaller;
+	list-style-type: none;
+}
+/* footer */
+
+
+/* Mobile */
+@media (max-width: 320px) {
+.logo {
+	width: 100%;
+	text-align: center;
+	margin-top: 13px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+}
+.text_column {
+	width: 100%;
+	text-align: justify;
+	padding: 0;
+}
+.intro .column p {
+	width: 80%;
+	margin-left: 0px;
+}
+.text_column {
+	padding-left: 20px;
+}
+.thumbnail {
+	width: 100%;
+}
+.column {
+	width: 100%;
+	margin-top: 0px;
+}
+}
+
+/* Small Tablets */
+@media (min-width: 321px)and (max-width: 767px) {
+.logo {
+	width: 100%;
+	text-align: center;
+	margin-top: 13px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+}
+
+.text_column {
+	width: 100%;
+	text-align: left;
+	padding: 0;
+}
+
+.thumbnail {
+	width: 100%;
+}
+
+.column {
+	width: 100%;
+	margin-top: 0px;
+}
+
+.thumbnail {
+	width: 100%;
+}
+
+.text_column {
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 90%;
+}
+
+.column {
+	width: 100%;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.perfil {
+	width: 100%;
+}
+
+.intro .column p {
+	width: 90%;
+	text-align: center;
+	padding-left: 0px;
+}
+}
+
+/* Small Desktops */
+@media (min-width: 768px) and (max-width: 1096px) {
+.text_column {
+	width: 100%;
+}
+.thumbnail {
+	width: 48%;
+}
+.text_column {
+	width: 90%;
+	margin: 0;
+	padding: 20px;
+}
+.intro .column p {
+	width: 80%;
+}
+}

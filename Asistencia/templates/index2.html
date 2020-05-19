@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% load static %}
+
+<title>
+        {%block title %} Pagina Principal{% endblock %}
+</title>
+
+{% block content %}
+
+
+      <section class="info">
+
+        <div class="columnaPerfil">
+         <img src="{% static 'foto.png' %}" alt="" class="foto"> 
+         
+        </div>
+ 
+        <div class="columnaDatosIndex">
+        
+         <ul id="notifylist">
+             <li id="DOCENTE">
+                 Numero de empleado:<br> <b>{{ user.username }}  </b> <br>
+                 Nombre de empleado:<br> <b>{{ user.first_name }}</b> <br>
+                 Horario:<br> <b>{{ horaI }} a {{horaF}}   </b> <br>
+                 Materia:<br> <b>{{ materia }}</b> <br>
+            </li> 
+         </ul>
+         
+        </div>
+
+        <div class="btndiv"><button class="button" onclick="location.href='{% url 'admin:index' %}'" type="button" >ADMIN</button>    
+        {{% if inicio == True %} 
+        <button  class="button" onclick="location.href='{% url 'lista' %}'" type="button" enabled> INICIO </button>
+        {% endif %}
+        {% if nomateria == False %}
+        <button class="button" onclick="location.href='{% url 'resumen_dia' %}'" type="button" enabled> RESUMEN DEL DIA </button>
+        {% endif %}
+        </div> 
+   
+     </section>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const webSocketBridge = new channels.WebSocketBridge();
+        const nl = document.querySelector("#notifylist");
+          
+        webSocketBridge.connect('/notifications/');
+        webSocketBridge.listen(function(action, stream) {
+        console.log("RESPONSE:", action);
+        if(action.event == "logeo") {        
+              document.getElementById("AVISO").style.display = "none";       
+              document.getElementById("DATOS").style.display = "inline";
+              var el = document.createElement("li");
+              el.innerHTML = `Numero de empleado:<br> <b>${action.username}</b><br>  Nombre de empleado:<br> <b>${action.firstname}</b>`;
+              nl.appendChild(el);
+              
+              
+              //for (i = 0; i < myObj.length; i++) {
+              //  var el = document.createElement("li");
+              ///el.innerHTML = `New user <b>${myObj[i]}</b> has joined!`;
+             //nl.appendChild(el);   
+             //}     
+            }
+          })
+        document.ws = webSocketBridge; /* for debugging */
+        })
+</script>   
+{% endblock %}
+
