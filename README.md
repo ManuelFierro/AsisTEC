@@ -21,7 +21,7 @@ pip install channels
 pip install channels_redis
 
 Instalar redis server
-https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows
+<https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows>
 ```
 
 Integrantes:
