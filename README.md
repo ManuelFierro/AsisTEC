@@ -19,10 +19,9 @@ pipenv shell
 pip install django
 pip install channels
 pip install channels_redis
-
-Instalar redis server
-[Manual Instalador REDIS SERVER](https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows)
 ```
+### Instalar redis server
+[Manual Instalador REDIS SERVER](https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows)
 
 Integrantes:
 Fierro Cantú Manuel Alejandro
