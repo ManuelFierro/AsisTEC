@@ -2,7 +2,7 @@
 {% load static %}
 
 <title>
-        {%block title %} Inicio {% endblock %}
+        {%block title %} - TOMANDO ASISTENCIA - {% endblock %}
 </title>
 
 {% block content %}
@@ -19,7 +19,7 @@
       <ul id="notiflist">
         {% if alumno_activo %}   
           <li> 
-            <b>Numero de Control: </b> <br>
+            <b>Número de Control: </b> <br>
             {{alumno_activo.num_control}} <br>
             <b>Nombre De Alumno: </b> <br>
             {{alumno_activo.nom_alu}} <br> 
@@ -34,7 +34,7 @@
 
       <table  id=tablaAsist style="width:100%"> 
         <tr>
-          <th><strong>Numero de Control</strong></th>
+          <th><strong>Número de Control</strong></th>
           <th><strong>Nombre de Alumno</strong></th>
         </tr>
 
@@ -131,7 +131,7 @@
         //listaNoti.removeChild(primerli[0]); // Remove the child from queue that is the first li element.  
 
       var elli = document.createElement("li");
-      elli.innerHTML = `<b>Numero de Control:</b><br> ${action.username}<br>  <b>Nombre del Alumno:</b><br> ${action.firstname}`;
+      elli.innerHTML = `<b>Número de Control:</b><br> ${action.username}<br>  <b>Nombre del Alumno:</b><br> ${action.firstname}`;
       nl.appendChild(elli);
 
       var eltr = document.createElement("tr");

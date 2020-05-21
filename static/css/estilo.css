@@ -155,10 +155,10 @@ table td
 	margin-left: 30%;
 	vertical-align: middle;
 	border-radius: 0px;
-	font-weight: bold;
 	letter-spacing: 2px;
 	color: rgb(255,250,240);
 	display: inline;
+	padding-bottom: 40px;
 }
 
 .button {
@@ -192,6 +192,15 @@ footer {
 	padding-bottom: 20PX;
 }
 
+footer img {
+	float: right;
+	width: 135px;
+	height: 135px;
+	margin-top: -20px;
+	padding-right: 10px;
+	background: rgb(150,50,50);
+  }
+
 .copyright {
 	text-align: center;
 	padding-top: 10px;
@@ -207,7 +216,6 @@ footer {
 .creadores {
 	font-size: larger;
 	text-align: center;
-	margin: 0;
 	letter-spacing: 4px;
 	font-weight: bolder;
 	color: rgb(255,250,240)	;
@@ -219,106 +227,3 @@ footer {
 	list-style-type: none;
 }
 /* footer */
-
-
-/* Mobile */
-@media (max-width: 320px) {
-.logo {
-	width: 100%;
-	text-align: center;
-	margin-top: 13px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-}
-.text_column {
-	width: 100%;
-	text-align: justify;
-	padding: 0;
-}
-.intro .column p {
-	width: 80%;
-	margin-left: 0px;
-}
-.text_column {
-	padding-left: 20px;
-}
-.thumbnail {
-	width: 100%;
-}
-.column {
-	width: 100%;
-	margin-top: 0px;
-}
-}
-
-/* Small Tablets */
-@media (min-width: 321px)and (max-width: 767px) {
-.logo {
-	width: 100%;
-	text-align: center;
-	margin-top: 13px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-}
-
-.text_column {
-	width: 100%;
-	text-align: left;
-	padding: 0;
-}
-
-.thumbnail {
-	width: 100%;
-}
-
-.column {
-	width: 100%;
-	margin-top: 0px;
-}
-
-.thumbnail {
-	width: 100%;
-}
-
-.text_column {
-	padding-left: 20px;
-	padding-right: 20px;
-	width: 90%;
-}
-
-.column {
-	width: 100%;
-	margin-left: 0px;
-	margin-right: 0px;
-}
-
-.perfil {
-	width: 100%;
-}
-
-.intro .column p {
-	width: 90%;
-	text-align: center;
-	padding-left: 0px;
-}
-}
-
-/* Small Desktops */
-@media (min-width: 768px) and (max-width: 1096px) {
-.text_column {
-	width: 100%;
-}
-.thumbnail {
-	width: 48%;
-}
-.text_column {
-	width: 90%;
-	margin: 0;
-	padding: 20px;
-}
-.intro .column p {
-	width: 80%;
-}
-}

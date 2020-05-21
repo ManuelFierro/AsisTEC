@@ -7,10 +7,10 @@ class alumnosAdmin(admin.ModelAdmin):
         list_display=("num_control","nom_alu")
         
 class docentesAdmin(admin.ModelAdmin):
-        list_display=("clave_mae","nomb_mae")
+        list_display=("clave_doc","nom_doc")
 
 class materiasAdmin(admin.ModelAdmin):
-        list_display=("clave_mat","nom_mat","clave_mae")
+        list_display=("clave_mat","nom_mat","clave_doc")
 
 class asistenciaAdmin(admin.ModelAdmin):
         list_display=("num_control","asist","fecha","clave_matA")

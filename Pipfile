@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 django = "*"
-twisted = {path = "./Twisted-20.3.0-cp38-cp38-win_amd64.whl"}
 channels = "*"
 channels-redis = "*"
 

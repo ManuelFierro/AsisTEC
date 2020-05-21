@@ -12,6 +12,15 @@ Avisos en tiempo real de los alumnos que toman asistencia.
 Detección de horarios
 ```
 
+### Instrucciones de instalacion:
+Instalar dependencias:
+```
+pipenv shell
+pip install django
+pip install channels
+pip install channels_redis
+```
+
 Integrantes:
 Fierro Cantú Manuel Alejandro
 

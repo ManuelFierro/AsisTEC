@@ -2,24 +2,97 @@
 {% load static %}
 
 <title>
-  {%block title %} Primer Pantalla {% endblock %}
+  {%block title %} RESUMEN ASISTENCIA {% endblock %}
 </title>
 
 {% block content %}
+<button class="button" onclick="location.href='{% url 'reporte' %}'" type="button" style="float:right" > EXPORTAR </button>
+<button class="button" onclick="location.href='{% url 'index' %}'" type="button"> REGRESAR</button>
+<br>
+<div class="asist">
+  <ul>   
+   <strong>MATERIA:</strong> 
+     <li>{{ materia }}</li>
+     <strong>HORA:</strong> 
+     <li>
+      {% if horarioquery %}
 
-<div class="btndiv">
-  <button class="button" type="button" style="float:right" > EXPORTAR </button>
+      {% for horario in horarioquery %}
+
+      <b>|</b> {{horario.dia|upper}} {{horario.horaI}} - {{horario.horaF}} 
+
+      {% endfor %}
+
+      {% endif %}
+     </li>
+     <strong>DOCENTE: :</strong> 
+     <li>{{ nom_docente }}</li>
+
+    </ul>
+</div>
+<br>
+<div class="asist">
+  <form method = "post" action = '{% url 'resumen' %}'>
+    {% csrf_token %}
+    <select name = "materias" >
+      {% if materias_select %}
+  
+      {% for materia in materias_select %}
+      <option value="{{materia.clave_mat}}">{{materia.nom_mat}}</option>
+      {% endfor %}
+  
+      {% endif %}
+                        
+    </select>
+    <input  class="button" type = "submit" value="CARGAR MATERIA">
+
+  </form>
+</div>
+<br>
+
+<div class="asist">
+  <form method = "post" action = '{% url 'resumenPOST' %}'>
+    {% csrf_token %}
+    <select name = "dia" >
+      {% if dias %}
+  
+      {% for dia in dias %}
+      <option value="{{dia|date:'d'}}">{{dia}}</option>
+      {% endfor %}
+  
+      {% endif %}
+                        
+    </select>
+    
+    <input  class="button" type = "submit" value="IR A FECHA">
+  </form>
 </div>
 
-<table>
-  <tr>
-    <th>Datos de la Materia</th>
-    <th>Días</th>
-  </tr>
-  <tr>
-    <td>Nombre de los alumnos</td>
-    <td>Asistencias</td>
-  </tr>
-</table>
+
+<br>
+
+<div class="asist">
+  <table style="width:100%">
+    <tr>
+
+      <th><strong>Número de Control</strong></th>
+      <th><strong>Nombre de Alumno</strong></th>
+      {% if asistenciaC %} 
+
+      {% for dato in asistenciaC %}
+      {% ifchanged dato.fecha|date:'m-d'%}<th><strong> {{ dato.fecha|date:'m-d' }} </strong></th></tr>{% endifchanged %}
+
+      <tr>
+      <td>{{dato.num_control}} </td>
+      <td>{{dato.nom_alu}} </td> 
+      <td>{% if dato.asist == True %} A {% else %} X {% endif %} </td>
+      </tr>
+      {% endfor %}
+
+    {% endif %}
+
+  </table>
+  
+</div>
 
 {% endblock %}

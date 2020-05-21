@@ -2,7 +2,7 @@
 {% load static %}
 
 <title>
-        {%block title %} Pagina Principal{% endblock %}
+        {%block title %} - AsisTEC -  {% endblock %}
 </title>
 
 {% block content %}
@@ -42,7 +42,7 @@
               document.getElementById("AVISO").style.display = "none";       
               document.getElementById("DATOS").style.display = "inline";
               var el = document.createElement("li");
-              el.innerHTML = `Numero de empleado:<br> <b>${action.username}</b><br>  Nombre de empleado:<br> <b>${action.firstname}</b>`;
+              el.innerHTML = `Numero de Docente:<br> <b>${action.username}</b><br>  Nombre de Docente:<br> <b>${action.firstname}</b>`;
               nl.appendChild(el);
               
               

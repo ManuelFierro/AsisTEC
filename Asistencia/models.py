@@ -10,38 +10,40 @@ class Alumnos(models.Model):
     nom_alu=models.CharField(
         max_length=30,
         verbose_name="Nombre del Alumno")
-    #semestre=models.IntegerField()
+    semestre=models.IntegerField()
 
     def __str__(self):
         return '%s, %s' %(self.num_control, self.nom_alu)
 
 class Docentes(models.Model):
-    clave_mae=models.CharField(
+    clave_doc=models.CharField(
         max_length=3,
         primary_key=True,
         verbose_name="Clave del Maestro")
-    nomb_mae=models.CharField(
+    nom_doc=models.CharField(
         max_length=30,
         verbose_name="Nombre del Maestro")
 
     def __str__(self):
-        return '%s, %s' %(self.clave_mae, self.nomb_mae)
+        return '%s, %s' %(self.clave_doc, self.nom_doc)
 
 class Materias(models.Model):
     clave_mat=models.CharField(
         max_length=30,
         primary_key=True,
         verbose_name="Clave de la Materia")
+    semestre=models.IntegerField(
+        verbose_name="Clave de la Materia")
     nom_mat=models.CharField(
         max_length=80,
         verbose_name="Nombre de la Materia")
-    clave_mae = models.ForeignKey(
+    clave_doc = models.ForeignKey(
         'Docentes',
         on_delete=models.CASCADE,
         verbose_name="Datos del Maestro")
 
     def __str__(self):
-        return '%s, %s, %s' %(self.clave_mat, self.nom_mat,self.clave_mae)
+        return '%s, %s, %s' %(self.clave_mat, self.nom_mat,self.clave_doc)
 
 class Asistencia(models.Model):
     nom_alu=models.CharField(

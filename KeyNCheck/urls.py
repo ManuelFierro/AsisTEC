@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Asistencia.views import listado_alumnos,resumen_dia,resumen,datos,index,logindocente,loginalumno
+from Asistencia.views import listado_alumnos,resumen_dia,resumen,datos,index,logindocente,loginalumno,reporte,resumenPOST,logout
 
 urlpatterns = [
     path('admin/', admin.site.urls,name="adm"),
@@ -26,4 +26,7 @@ urlpatterns = [
     path('datos/', datos,name="datos"),# RECIBE DATOS DEL QR Y LOS PROCESA
     path('logindocente/', logindocente,name="logindocente"),#PRUEBAS LOGINDOCENTE loginalumno
     path('loginalumno/', loginalumno,name="loginalumno"),
+    path('reporte/', reporte,name="reporte"),
+    path('resumenPOST/', resumenPOST,name="resumenPOST"),
+    path('logout_view/', logout,name="logout_view"),
 ]

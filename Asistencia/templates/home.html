@@ -18,15 +18,11 @@
       webSocketBridge.listen(function(action, stream) {
         console.log("RESPONSE:", action);
         if(action.event == "logeo") {
+          
           var el = document.createElement("li");
           el.innerHTML = `New user <b>${action.username}</b> <b>${action.firstname} </b> ${action.lastname} has joined!`;
           nl.appendChild(el);   
-
-          //for (i = 0; i < myObj.length; i++) {
-          //  var el = document.createElement("li");
-          ///el.innerHTML = `New user <b>${myObj[i]}</b> has joined!`;
-         //nl.appendChild(el);   
-         //}     
+     
         }
       })
       document.ws = webSocketBridge; /* for debugging */

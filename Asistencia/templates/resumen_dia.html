@@ -2,11 +2,13 @@
 {% load static %}
 
 <title>
-  {%block title %} Primer Pantalla {% endblock %}
+  {%block title %} - RESUMEN  DEL DíA -  {% endblock %}
 </title>
 
 {% block content %}
-
+<div class="btndiv">
+  <button class="button" onclick="location.href='{% url 'index' %}'" type="button" style="float:right" > REGRESAR </button>
+</div>
 <section class="info">
 <br>
 <div class="asist">
@@ -21,26 +23,23 @@
     </ul>
 </div>
 
-<div class="btndiv">
-  <button class="button" onclick="location.href='{% url 'index' %}'" type="button" style="float:right" > REGRESAR </button>
-</div>
-
 <div class="asist">
   <table style="width:100%">
     <tr>
-      <th><strong>Numero de Control</strong></th>
+      <th><strong>Número de Control</strong></th>
       <th><strong>Nombre de Alumno</strong></th>
-      <th><strong>Dia</strong></th>
+      <th><strong>{{ dia }}</strong></th>
     </tr>
-    {% if asistenciaF %} 
-        
-        {% for alumno in queryF %}
-        <tr> <td> {{alumno.num_control}} </td> <td>{{alumno..num_control}}</td> <td> {% if alumno.asist == True %} X  {% endif %}</td> </tr>
-        {% endfor %}
+    
+    {% if asistenciaC %} 
+      {% for alumno in asistenciaC %}
+      <tr> <td> {{alumno.num_control}} </td> <td>{{alumno.nom_alu}}</td> <td> {% if alumno.asist == True %} X  {% endif %}</td> </tr>
+      {% endfor %}
+     {% endif %}
 
-        {% endif %}
-
-  </table></div>
+  </table>
+  
+</div>
 
 </section>
 
