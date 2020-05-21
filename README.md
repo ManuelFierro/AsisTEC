@@ -21,7 +21,7 @@ pip install channels
 pip install channels_redis
 ```
 ### Instalar redis server
-[Manual Instalador REDIS SERVER](https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows)
+[Instalador REDIS SERVER](https://github.com/microsoftarchive/redis/releases/tag/win-3.2.100)
 
 Integrantes:
 Fierro Cantú Manuel Alejandro
