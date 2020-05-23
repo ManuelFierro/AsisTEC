@@ -7,31 +7,34 @@
 
 {% block content %}
 
-<section class="info">
+  <button class="button" onclick="location.href='{% url 'index' %}'" type="button"> REGRESAR</button>
+
+<div class="row">
+  <div class="asistlista">
+
   <div class="tiempo"><p><span>{{materia.nom_mat}}</span></p></div>
   <div class="tiempo"><p id="temporizador"> </p> <p>  {{horamax}} </p> </div>
 
-    <div class="columnaPerfil"> 
-      <img src="{% static 'foto.png' %}" alt="" class="foto"> 
-    </div>
+  
+    <div class="columnaPerfillista"> 
+      <img  src="{% static 'foto.png' %}" alt="" class="foto"> 
+      </div>
 
-    <div class="columnaDatosIndex">
-      <ul id="notiflist">
-        {% if alumno_activo %}   
-          <li> 
-            <b>Número de Control: </b> <br>
-            {{alumno_activo.num_control}} <br>
-            <b>Nombre De Alumno: </b> <br>
-            {{alumno_activo.nom_alu}} <br> 
-            </li>
+      <div class="columnaDatosIndex" >
+          <ul class="listacss" id="notiflist" >
             
-        
-        {% endif %}
-      </ul>
-    </div>
-
-    <div class="columnaAlumnos"> 
-
+            {% if alumno_activo %}   
+              <li> 
+                <b>Número de Control: </b> <br>
+                {{alumno_activo.num_control}} <br>
+                <b>Nombre De Alumno: </b> <br>
+                {{alumno_activo.nom_alu}} <br> 
+                </li>       
+            {% endif %}
+          </ul>
+      </div>
+ 
+      <div class="columnaDatosLista"> 
       <table  id=tablaAsist style="width:100%"> 
         <tr>
           <th><strong>Número de Control</strong></th>
@@ -45,23 +48,14 @@
         {% endfor %}
 
         {% endif %}
-      
       </table>
- 
     </div>
-    
-    <div class="btndivizq">
-    <button class="button" onclick="location.href='{% url 'index' %}'" type="button"> REGRESAR
-    </button>
-    </div> 
+  </div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+ 
 
-</section>
+  
+</div>
 
 <script>
   // TEMPORIZADOR
@@ -102,7 +96,7 @@
         localStorage.clear();
         document.getElementById('temporizador').innerHTML = strfinal;
         alert("¡SE ACABO EL TIEMPO!");
-        window.location.href= "http://127.0.0.1:8000/";
+        window.location.href= "http://127.0.0.1:8000/resumen_dia/";
       }else {
         var hora = mins + ":" + sec;
         localStorage.setItem("tiempo1", tiempo1);
@@ -126,10 +120,6 @@
       var ul = document.getElementById("notiflist");
       while(ul.firstChild) ul.removeChild(ul.firstChild);
 
-        //var listaNoti = document.getElementById('notiflist'); // Get the list whose id is queue.
-        //var elementoli = queue.getElementsByTagName('li'); // Get HTMLCollection of elements with the li tag name.
-        //listaNoti.removeChild(primerli[0]); // Remove the child from queue that is the first li element.  
-
       var elli = document.createElement("li");
       elli.innerHTML = `<b>Número de Control:</b><br> ${action.username}<br>  <b>Nombre del Alumno:</b><br> ${action.firstname}`;
       nl.appendChild(elli);
@@ -140,8 +130,9 @@
                    
         }
       })
-  document.ws = webSocketBridge; /* for debugging */
+  document.ws = webSocketBridge;
   })
 </script> 
+
 {% endblock %}
 

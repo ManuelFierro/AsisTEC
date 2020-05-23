@@ -11,18 +11,18 @@
 </div>
 <section class="info">
 <br>
+
 <div class="asist">
-  <ul>   
+  <ul>
+    <strong>DOCENTE: </strong> 
+     <li>{{ nom_docente }}</li>
    <strong>MATERIA:</strong> 
      <li>{{ materia }}</li>
-     <strong>HORA:</strong> 
-     <li>{{horaI}} a {{horaF}}</li>
-     <strong>DOCENTE: :</strong> 
-     <li>{{ nom_docente }}</li>
-
-    </ul>
+    <strong>HORA:</strong> 
+     <li>{{horaI}} a {{horaF}}</li>    
+  </ul>
 </div>
-
+<br>
 <div class="asist">
   <table style="width:100%">
     <tr>
@@ -31,9 +31,9 @@
       <th><strong>{{ dia }}</strong></th>
     </tr>
     
-    {% if asistenciaC %} 
-      {% for alumno in asistenciaC %}
-      <tr> <td> {{alumno.num_control}} </td> <td>{{alumno.nom_alu}}</td> <td> {% if alumno.asist == True %} X  {% endif %}</td> </tr>
+    {% if asistenciaF %} 
+      {% for alumno in asistenciaF %}
+      <tr> <td> {{alumno.num_control}} </td> <td>{{alumno.nom_alu}}</td> <td> {% if alumno.asist == True %} A {% endif %}</td> </tr>
       {% endfor %}
      {% endif %}
 

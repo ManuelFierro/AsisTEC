@@ -7,40 +7,38 @@
 
 {% block content %}
 
+<section class="info">
 
-      <section class="info">
-
-        <div class="columnaPerfil">
-         <img src="{% static 'foto.png' %}" alt="" class="foto"> 
-         
-        </div>
+<div class="columnaPerfil">
+ <img src="{% static 'foto.png' %}" alt="" class="foto"> 
+</div>
  
-        <div class="columnaDatosIndex">
+<div class="columnaDatosIndex">
         
-         <ul id="notifylist">
-             <li id="DOCENTE">
-                 Numero de empleado:<br> <b>{{ user.username }}  </b> <br>
-                 Nombre de empleado:<br> <b>{{ user.first_name }}</b> <br>
-                 Horario:<br> <b>{{ horaI }} a {{horaF}}   </b> <br>
-                 Materia:<br> <b>{{ materia }}</b> <br>
-            </li> 
-         </ul>
-         
-        </div>
+  <ul id="notifylist">
+    <li id="DOCENTE">
+        Numero del Docente:<br> <b>{{ user.username }}</b> <br>
+        Nombre del Docente:<br> <b>{{ user.first_name }}</b> <br>
+        Horario:<br> <b>{{ horaI }} a {{horaF}}</b> <br>
+        Materia:<br> <b>{{ materia }}</b> <br>
+      </li> 
+	</ul>
+	
+</div>
 
-        <div class="btndiv"><button class="button" onclick="location.href='{% url 'admin:index' %}'" type="button" >ADMIN</button>    
-        {{% if inicio == True %} 
-        <button  class="button" onclick="location.href='{% url 'lista' %}'" type="button" enabled> INICIO </button>
-        {% endif %}
-        {% if nomateria == False %}
-        <button class="button" onclick="location.href='{% url 'resumen_dia' %}'" type="button" enabled> RESUMEN / DIA </button>
-        {% endif %}
+<div class="btndiv">
+  <button class="button" onclick="location.href='{% url 'admin:index' %}'" type="button" >ADMIN</button>    
+    {{% if inicio == True %} 
+  <button  class="button" onclick="location.href='{% url 'lista' %}'" type="button" enabled>INICIO</button>
+    {% endif %}
+    {% if nomateria == False %}
+  <button class="button" onclick="location.href='{% url 'resumen_dia' %}'" type="button" enabled>RESUMEN / DIA</button>
+    {% endif %}
+  <button class="button" onclick="location.href='{% url 'resumen' %}'" type="button" enabled>RESUMEN</button>
+</div> 
 
-        <button class="button" onclick="location.href='{% url 'resumen' %}'" type="button" enabled> RESUMEN</button>
-        
-        </div> 
-   
-     </section>
+
+</section>
 
 <script>
         document.addEventListener('DOMContentLoaded', function() {

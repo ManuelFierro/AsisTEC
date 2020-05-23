@@ -6,14 +6,39 @@
 </title>
 
 {% block content %}
-<button class="button" onclick="location.href='{% url 'reporte' %}'" type="button" style="float:right" > EXPORTAR </button>
+<div class="asist" style="background-color: rgb(255,250,240);color:rgb(150,50,50);font-size: xx-large;"><b>{{aviso}}</b></div>
+
 <button class="button" onclick="location.href='{% url 'index' %}'" type="button"> REGRESAR</button>
-<br>
+
 <div class="asist">
-  <ul>   
+  <form method = "post" action = '{% url 'resumen' %}'>
+    {% csrf_token %}
+    <select name = "materias" class="select-css" >
+      <option value="{{materia_clave}}">{{materia_nombre}}</option>
+
+      {% if materias_select %}
+  
+      {% for materia in materias_select %}
+      <option value="{{materia.clave_mat}}">{{materia.nom_mat}}</option>
+      {% endfor %}
+  
+      {% endif %}
+                        
+    </select>
+    <input  class="buttonresumen" type = "submit" value="CARGAR MATERIA">
+
+  </form>
+</div>
+
+<br>
+
+<div class="asist">
+  <ul>  
+    <strong>DOCENTE:</strong> 
+     <li>{{ nom_docente }}</li> 
    <strong>MATERIA:</strong> 
-     <li>{{ materia }}</li>
-     <strong>HORA:</strong> 
+     <li>{{ materia_nombre }}</li>
+    <strong>HORA:</strong> 
      <li>
       {% if horarioquery %}
 
@@ -24,36 +49,19 @@
       {% endfor %}
 
       {% endif %}
-     </li>
-     <strong>DOCENTE: :</strong> 
-     <li>{{ nom_docente }}</li>
+     </li>    
 
     </ul>
 </div>
-<br>
-<div class="asist">
-  <form method = "post" action = '{% url 'resumen' %}'>
-    {% csrf_token %}
-    <select name = "materias" >
-      {% if materias_select %}
-  
-      {% for materia in materias_select %}
-      <option value="{{materia.clave_mat}}">{{materia.nom_mat}}</option>
-      {% endfor %}
-  
-      {% endif %}
-                        
-    </select>
-    <input  class="button" type = "submit" value="CARGAR MATERIA">
 
-  </form>
-</div>
 <br>
 
 <div class="asist">
   <form method = "post" action = '{% url 'resumenPOST' %}'>
+   
     {% csrf_token %}
-    <select name = "dia" >
+    <select name = "dia" class="select-css" >
+      <option value="{{hora|date:'d'}}"> {{hora|date}}</option>
       {% if dias %}
   
       {% for dia in dias %}
@@ -64,12 +72,37 @@
                         
     </select>
     
-    <input  class="button" type = "submit" value="IR A FECHA">
+    <input  class="buttonresumen" type = "submit" value="IR A FECHA">
   </form>
 </div>
 
-
 <br>
+<div class="asist">
+  <div style="float:right">
+    <form method = "post" action = '{% url 'reporte' %}'>
+    {% csrf_token %}
+    <select name = "mes" class="select-css" >
+      <option value="{{hora|date:'n'}}">{{hora|date:'F'}}</option>
+      <option value="1">Enero</option>
+      <option value="2">Febrero</option>
+      <option value="3">Marzo</option>
+      <option value="4">Abril</option>
+      <option value="5">Mayo</option>
+      <option value="6">Junio</option>
+      <option value="7">Julio</option>
+      <option value="8">Agosto</option>
+      <option value="9">Septiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    
+    </select>
+  
+    <input  class="buttonresumen" type = "submit" value="EXPORTAR">
+  </form>
+  </div>
+</div>
+
 
 <div class="asist">
   <table style="width:100%">

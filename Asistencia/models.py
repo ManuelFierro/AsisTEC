@@ -73,4 +73,4 @@ class Horarios(models.Model):
         verbose_name="Datos de la materia")
     
     def __str__(self):
-        return '%s, %s, %s' %(self.dia, self.hora,self.clave_mat)
+        return '%s, %s, %s, %s' %(self.dia, self.horaI,self.horaF,self.clave_mat)

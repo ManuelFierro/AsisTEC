@@ -13,7 +13,6 @@
 
       <div class="columnaPerfil">
         <img src="{% static 'foto.png' %}" alt="" class="foto"> 
-         
       </div>
  
       <div class="columnaDatosIndex">
@@ -24,8 +23,9 @@
          
       </div>
 
-      <div class="btndiv"><button class="button" onclick="location.href='{% url 'admin:index' %}'" type="button" >ADMIN</button>   
-      <button  class="button" onclick="location.href='{% url 'index' %}'" type="button" enabled> INICIO </button>
+      <div class="btndiv">
+      <button class="button" onclick="location.href='{% url 'admin:index' %}'" type="button" >ADMIN</button>   
+      <button  class="button" onclick="location.href='{% url 'index' %}'" type="button" enabled>INICIO </button>
       </div>
    
     </section>
@@ -42,15 +42,9 @@
               document.getElementById("AVISO").style.display = "none";       
               document.getElementById("DATOS").style.display = "inline";
               var el = document.createElement("li");
-              el.innerHTML = `Numero de Docente:<br> <b>${action.username}</b><br>  Nombre de Docente:<br> <b>${action.firstname}</b>`;
+              el.innerHTML = `Numero del Docente:<br> <b>${action.username}</b><br>  Nombre del Docente:<br> <b>${action.firstname}</b>`;
               nl.appendChild(el);
-              
-              
-              //for (i = 0; i < myObj.length; i++) {
-              //  var el = document.createElement("li");
-              ///el.innerHTML = `New user <b>${myObj[i]}</b> has joined!`;
-             //nl.appendChild(el);   
-             //}     
+                  
             }
           })
         document.ws = webSocketBridge; /* for debugging */

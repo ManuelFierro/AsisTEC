@@ -76,7 +76,7 @@ def index(request):
     # ################################################# #
 
     print("DOCENTE ACTIVO", session['numero_empleado'])
-
+    
     usuario = authenticate(
         username=session['numero_empleado'], password=session['numero_empleado'])
     if usuario is not None:
@@ -89,47 +89,65 @@ def index(request):
                 clave_doc=session['numero_empleado'], horarios__dia=dia, horarios__horaI__lte=hora, horarios__horaF__gte=hora).first()
             print("EL REQUEST ES: ", request.user.username)
             print("MATERIA A ESTA HORA: ", materiaquery)
-
+            
             if materiaquery:
                 print("MATERIA A ESTA HORA: ", materiaquery.clave_mat)
                 session['materia'] = materiaquery.clave_mat
-                nombreinicio = ('INICIO'+session['materia'])
-                materiaquery = Materias.objects.get(
-                    clave_doc=session['numero_empleado'], horarios__dia=dia, horarios__horaI__lte=hora, horarios__horaF__gte=hora)
+                nombreinicio = ('INICIO'+session['materia'])  
+                inicio = True
+
+                # DATOS GENERALES DE LA MATERIA#              
                 horariomateria = Horarios.objects.get(
-                    clave_mat=materiaquery, horaI__lte=hora, horaF__gte=hora, dia=dia)
+                    clave_mat=session['materia'], horaI__lte=hora, horaF__gte=hora, dia=dia)
                 horaI = horariomateria.horaI
                 horaF = horariomateria.horaF
                 materia = materiaquery.nom_mat
+                session["horafinal"] = horariomateria.horaF
                 print("Docente: ", materiaquery.nom_mat)
                 print("HORARIO: ", horariomateria.horaI,
                       " a ", horariomateria.horaF)
+                print("LA HORA ES:", hora.time())
+                # DATOS GENERALES DE LA MATERIA#  
 
                 if Asistencia.objects.filter(num_control=nombreinicio, asist=True, fecha__date=hora, clave_matA=session['materia']):
                     horainicio = Asistencia.objects.get(
                         num_control=nombreinicio, asist=True, fecha__date=hora, clave_matA=session['materia'])
-                    session["horamax"] = horainicio.fecha + \
-                        datetime.timedelta(minutes=15)
+                    session["horamax"] = horainicio.fecha + datetime.timedelta(minutes=15)
                     print("LA HORA MAXIMA ES: ", session["horamax"])
-                    print("LA HORA ES:", hora)
-
-                if hora <= session["horamax"].replace(tzinfo=None):
-                    inicio = True
+                    print("LA HORA ES:", hora.time())
+                    
+                if hora <= session["horamax"].replace(tzinfo=None) and inicio == True and hora.time() <= session["horafinal"]:
                     nomateria = False
-                    print("AUN HAY TIEMPO HASTA LAS", session["horamax"])
+                    print("FINALIZA A LAS: ", session["horafinal"])
+                    print("SE TOMARA LISTA HASTA LAS: ", session["horamax"])
                     return render(request, 'index2.html', {"materia": materia, "horaI": horaI, "horaF": horaF, "inicio": inicio})
                 else:
-                    horaI = "LIBRE"
-                    horaF = "LIBRE"
-                    materia = "YA TOMO ASISTENCIA"
-                    print("LA HORA MAXIMA ES: ", session["horamax"])
-                    print("LA HORA ES:", hora)
-                    Asistencia.objects.filter(
-                        num_control=nombreinicio, asist=True, fecha__date=hora).delete()
-                    session["horamax"] = hora
-                    inicio = False
-                    nomateria = False
-                    return render(request, 'index2.html', {"materia": materia, "horaI": horaI, "horaF": horaF, "inicio": inicio})
+                    if hora >= session["horamax"].replace(tzinfo=None):
+                        horaI = "YA SE TOMO LISTA"
+                        horaF = "YA SE TOMO LISTA"
+                        materia = "YA TOMO ASISTENCIA"
+                        print("LA HORA MAXIMA PARA TOMAR LISTA ES: ", session["horamax"])
+                        print("LA MATERIA TERMINO A LAS: ", session["horafinal"])
+                        print("LA HORA ES:", hora)
+                        Asistencia.objects.filter(
+                            num_control=nombreinicio, asist=True, fecha__date=hora).delete()
+                        session["horamax"] = hora
+                        inicio = False
+                        nomateria = False
+                        return render(request, 'index2.html', {"materia": materia, "horaI": horaI, "horaF": horaF, "inicio": inicio})
+
+                    if hora.time() >= session["horafinal"]:
+                        horaI = "SE ACABO LA CLASE"
+                        horaF = "SE ACABO LA CLASE"
+                        materia = "SE ACABO LA CLASE"
+                        print("LA HORA MAXIMA PARA TOMAR LISTA ES: ", session["horamax"])
+                        print("LA MATERIA TERMINO A LAS: ", session["horafinal"])
+                        print("LA HORA ES:", hora)
+                        Asistencia.objects.filter(
+                            num_control=nombreinicio, asist=True, fecha__date=hora).delete()
+                        inicio = False
+                        nomateria = False
+                        return render(request, 'index2.html', {"materia": materia, "horaI": horaI, "horaF": horaF, "inicio": inicio})
             else:
                 horaI = "LIBRE"
                 horaF = "LIBRE"
@@ -219,6 +237,7 @@ def loginalumno(request):
     numero_control = random.randint(17231000, 17231020)
     nombre = ('Alumno'+str(numero_control))
     print("ALUMNO:", nombre)
+    
     materia = session['materia']
     clave_doc = session['numero_empleado']
     session['numero_empleado'] = clave_doc
@@ -227,10 +246,11 @@ def loginalumno(request):
     print("DOCENTE ACTIVO: ", session['numero_empleado'])
 
     materiaquery = Materias.objects.filter(
-        clave_doc=session['numero_empleado'], horarios__dia=dia, horarios__horaI__lte=hora, horarios__horaF__lte=session['horamax']).first()
+        clave_doc=session['numero_empleado'], horarios__dia=dia, horarios__horaI__lte=hora, horarios__horaF__lte=hora).first()
     print("MATERIA QUERY: ", materiaquery)
 
     if materiaquery and hora <= session["horamax"].replace(tzinfo=None):
+        inicio = True
         print("MATERIA A ESTA HORA: ", materiaquery.clave_mat)
         print("AUN ESTAS A TIEMPO")
         print("HORA MAXIMA ", session['horamax'])
@@ -287,9 +307,9 @@ def loginalumno(request):
             print("HORA DE INICIO", horainicio.fecha)
             horamax = horainicio.fecha + datetime.timedelta(minutes=15)
             print("DOCENTE DE LA MATERIA", docentemat.clave_doc,
-                  " ", docentemat.nomb_mae)
+                  " ", docentemat.nom_doc)
             session['numero_empleado'] = docentemat.clave_doc
-            session['nombre'] = docentemat.nomb_mae
+            session['nombre'] = docentemat.nom_doc
             session['materia'] = materia
             session['horamax'] = horamax
             print("DOCENTE ACTIVO DESPUES BORRADO: ",
@@ -467,7 +487,6 @@ def listado_alumnos(request):
     #CREACION DE CONTROL DE INICIO#
     materiaObj = Materias.objects.filter(
         clave_doc=session['numero_empleado'], clave_mat=session['materia'])
-    #alumnosObj = Alumnos.objects.filter(num_control=nombreinicio)
     if session['materia']:
         if Asistencia.objects.filter(num_control=nombreinicio, asist=True, fecha__date=hora, clave_matA=session['materia']):
             print("YA ESTA CREADO EL INICIO: ", Asistencia.objects.get(
@@ -567,15 +586,23 @@ def resumen_dia(request):
 
 @login_required(login_url='/')
 def resumen(request):
-    session['materia'] = "IFD-1010"
+
+    if session['materia']:
+        materia_clave = session['materia']
+    else:
+        materias_select = Materias.objects.filter(clave_doc=session['numero_empleado']).first()
+        materias_select = session['materia']
+        print("MATERIA SI NO HAY SELECT", materias_select)
+
     docente = session['numero_empleado']
     nom_docente = session['nombre']
     materia_clave = session['materia']
     dia_select = hora.day
+    mes_select = hora.month
 
     materias_select = Materias.objects.filter(
         clave_doc=session['numero_empleado'])
-    print("SELECT PARA MATERIAS", materia_clave)
+    print("SELECT PARA MATERIAS",  materias_select)
 
     if request.method == "POST":
         materia_select = request.POST['materias']
@@ -603,26 +630,33 @@ def resumen(request):
         print("Nombre Materia: ", materiaquery.nom_mat)
 
         return render(request, 'resumen_completo.html', {
-            "materia": materiaquery.nom_mat,
+            "hora":hora,
+            "mes_select":mes_select,
+            "materia_clave":materia_clave,
+            "materia_nombre": materiaquery.nom_mat,
             "docente": docente,
             "nom_docente": nom_docente,
             "horarioquery": horarioquery,
-            "dia": hora.strftime("%m-%d"),
             "dias": dias,
             "materias_select": materias_select,
             "asistenciaC": asistenciaC})
 
     return render(request, 'resumen_completo.html', {
+        "hora":hora,
+        "dia_select":dia_select,
+        "mes_select":mes_select,
+        "docente": docente,
+        "dias": dias,
+        "nom_docente": nom_docente,
         "materias_select": materias_select})
 
 
 @login_required(login_url='/')
 def resumenPOST(request):
     docente = session['numero_empleado']
-    session['materia'] = "IFD-1010"
-    docente = session['numero_empleado']
     nom_docente = session['nombre']
     materia_clave = session['materia']
+    mes_select = hora.month
 
     materias_select = Materias.objects.filter(
         clave_doc=session['numero_empleado'])
@@ -632,38 +666,95 @@ def resumenPOST(request):
     dias = cal.itermonthdates(hora.year, hora.month)
     print("SELECT DIAS: ", dias)
 
+    if Horarios.objects.filter(clave_mat=materia_clave):
+        horarioquery = Horarios.objects.filter(
+                clave_mat=materia_clave)
+        materiaquery = Materias.objects.get(
+                clave_doc=session['numero_empleado'], clave_mat=materia_clave)
+        print("Nombre Materia: ", materiaquery.nom_mat)
+    else:
+        aviso = "SELECCIONE UNA MATERIA"
+        return render(request, 'resumen_completo.html', {
+            "aviso":aviso,
+            "hora":hora,
+            "mes_select":mes_select,
+            "materia_clave":materia_clave,
+            "docente": docente,
+            "nom_docente": nom_docente,
+            "dias": dias,
+            "materias_select": materias_select,})
+
     if request.method == "POST":
         dia_select = request.POST['dia']
         print("FECHA ELEGIDA:", dia_select)
 
         asistenciaC = Asistencia.objects.filter(
-            clave_matA=session['materia'], fecha__day=dia_select).order_by('fecha')  # ALUMNOS DEL DIA
-        print("CLAVE MATERIA POST:", session['materia'])
-        print("QUERY ALUMNOS POST: ", asistenciaC)
+                clave_matA=session['materia'], fecha__day=dia_select).order_by('fecha')  # ALUMNOS DEL DIA
 
-        if Horarios.objects.filter(clave_mat=materia_clave):
-            horarioquery = Horarios.objects.filter(
-                clave_mat=materia_clave)
-            #horaI = horarioquery.horaI
-            #horaF = horarioquery.horaF
-            materiaquery = Materias.objects.get(
-                clave_doc=session['numero_empleado'], clave_mat=materia_clave)
-            materia = materiaquery.nom_mat
-            print("Nombre Materia: ", materiaquery.nom_mat)
-
-            return render(request, 'resumen_completo.html', {
-                "materia": materiaquery.nom_mat,
+        if asistenciaC:
+            print("CLAVE MATERIA POST:", session['materia'])
+            print("QUERY ALUMNOS POST: ", asistenciaC)
+            return render(request, 'resumen_completo.html', {      
+                "hora":hora,
+                "mes_select":mes_select,
+                "materia_clave":materia_clave,
+                "materia_nombre": materiaquery.nom_mat,      
                 "docente": docente,
                 "nom_docente": nom_docente,
                 "horarioquery": horarioquery,
-                "dia": hora.strftime("%m-%d"),
                 "dias": dias,
                 "materias_select": materias_select,
-                "asistenciaC": asistenciaC})
-
+                "asistenciaC": asistenciaC})   
+        else:
+            aviso = "NO HUBO ALUMNOS ESE DIA"
+            return render(request, 'resumen_completo.html', {
+                "aviso":aviso,
+                "hora":hora,
+                "mes_select":mes_select,
+                "materia_clave":materia_clave,
+                "materia_nombre": materiaquery.nom_mat,      
+                "docente": docente,
+                "nom_docente": nom_docente,
+                "horarioquery": horarioquery,
+                "dias": dias,
+                "materias_select": materias_select,
+                "asistenciaC": asistenciaC}) 
+          
 
 @login_required(login_url='/')
 def reporte(request):
+
+    docente = session['numero_empleado']
+    nom_docente = session['nombre']
+    materia_clave = session['materia']
+
+    if Materias.objects.filter(clave_doc=session['numero_empleado'], clave_mat=materia_clave).first():
+        materiaquery = Materias.objects.get(clave_doc=session['numero_empleado'], clave_mat=materia_clave)
+        materia_nombre = materiaquery.nom_mat
+        print("Nombre Materia: ", materiaquery.nom_mat)
+    else:
+        return redirect('resumen')
+
+    horarioquery = Horarios.objects.filter(clave_mat=materia_clave).values_list()
+    horarioSTR =' '
+
+    for horarios in horarioquery:
+        horario = horarios[1]+' '+ str(horarios[2])+'-' + str(horarios[3])
+        horarioSTR += ' | '+horario + ' | '
+    print("HORARIOS",horarioSTR)
+  
+    if request.method == "POST":
+        mes = request.POST['mes']
+        print("MES ELEGIDO:", mes)
+    else:
+        mes = hora.month
+
+    materia = 'MATERIA : ' + materia_clave +' - '+ materia_nombre
+    print("RENGLON MATERIA: " + materia)
+    maestro = 'MAESTRO : '+ str(docente) + ' - '+ nom_docente
+    print("RENGLON MAESTRO: " + maestro)
+    horariosF = 'HORARIO : '+horarioSTR
+
     output = io.BytesIO()
     workbook = xlsxwriter.Workbook(
         output, {'in_memory': True, 'remove_timezone': True})
@@ -674,13 +765,13 @@ def reporte(request):
     worksheet.set_column(2, 3, 40)
     worksheet.set_column(3, 35, 3)
     bold = workbook.add_format({'bold': True, 'border': True})
-    fullborder = workbook.add_format({'border': True})
+    fullborder = workbook.add_format({'border': True}) 
     noasistio = workbook.add_format({'border': True, 'bg_color': '#FFFFCC'})
+    asistio = workbook.add_format({'border': True, 'bg_color': '#CCFFCC'})
 
-    mes = hora.month
-    print("Dias en el mes: ", monthrange(hora.year, mes)[1])
+    print("Dias en el mes: ", monthrange(hora.year, int(mes))[1])
 
-    dias = monthrange(hora.year, mes)[1] + 1
+    dias = monthrange(hora.year, int(mes))[1] + 1
     row = 10
     col = 0
     numero = 1
@@ -688,29 +779,24 @@ def reporte(request):
     rowasist = 10
     coldiaA = 3
 
-    materia = 'MATERIA : IFD1011   DESARROLLO E IMPLEMENTACION DE SISTEMAS DE INFORMACION'
-    maestro = 'MAESTRO : 902 - ROCIO LORENA RODRIGUEZ CHACON                       GRUPO : 1Y6A'
-    horario = 'HORARIO : Lu 10:00-11:00-2H Mi 13:00-15:00-2H Vi 13:00-15:00-1S'
-
     worksheet.write(
         'A1', '             INSTITUTO TECNOLÓGICO SUPERIOR DE LERDO')
     worksheet.write('A2', '')
     worksheet.write(
-        'A3', 'DEPARTAMENTO ACADEMICO                ACTA DE ASISTENCIA DETALLADA - PARCIAL NUM.1')
+        'A3', 'DEPARTAMENTO ACADEMICO                ACTA DE ASISTENCIA DETALLADA MES '+ mes)
     worksheet.write('A4', 'CONTIENE:        TODOS LOS ALUMNOS')
     worksheet.write(
         'A5', 'CARRERA :      7   ING.INFORMATICA   IINF-2010-220                       PERIODO : ENE-JUN-2020')
     worksheet.write('A6', materia)
     worksheet.write('A7', maestro)
-    worksheet.write('A8', horario)
+    worksheet.write('A8', horariosF)
     worksheet.write('A10', 'No', bold)
     worksheet.write('B10', 'Num Ctrol', bold)
     worksheet.write('C10', 'Nombre', bold)
 
     queryalumnos = Asistencia.objects.values('nom_alu', 'num_control', 'asist').annotate(
-        Count('id')).order_by().filter(id__count__gt=0)
+        Count('id')).order_by().filter(id__count__gt=0,fecha__month=int(mes),clave_matA=materia_clave)
 
-    #queryalumnos = Asistencia.objects.all().order_by('nom_alu').distinct('nom_alu')
     print("QUERY ALUMNOS", queryalumnos.count())
     conteo_alumnos = queryalumnos.count()
 
@@ -732,11 +818,11 @@ def reporte(request):
         numero_control = alumno['num_control']
         coldiaA = 3
         for dia in range(dias):
-            if Asistencia.objects.filter(num_control=numero_control, fecha__month=hora.month, fecha__day=dia):
+            if Asistencia.objects.filter(num_control=numero_control, fecha__month=hora.month, fecha__day=dia,clave_matA=materia_clave):
                 Asistencia_Mes = Asistencia.objects.get(
-                    num_control=numero_control, fecha__month=hora.month, fecha__day=dia)
+                    num_control=numero_control, fecha__month=hora.month, fecha__day=dia,clave_matA=materia_clave)
                 print("ALUMNOS A ESE DIA:", Asistencia_Mes)
-                worksheet.write(rowasist, coldiaA, '\U0001F5F8', fullborder)
+                worksheet.write(rowasist, coldiaA, '\U0001F5F8', asistio)
                 coldiaA += 1
             else:
                 print("NO hubo en este dia", dia)
@@ -748,7 +834,7 @@ def reporte(request):
     output.seek(0)
     response = HttpResponse(output.read(
     ), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    response['Content-Disposition'] = "attachment; filename=Asistencia.xlsx"
+    response['Content-Disposition'] = 'attachment; filename=Asistencia-'+materia_clave+'-'+mes+'.xlsx'
 
     return response
 
