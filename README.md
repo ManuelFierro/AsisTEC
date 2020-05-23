@@ -20,6 +20,8 @@ pip install django
 pip install channels
 pip install channels_redis
 ```
+### Instalar redis server
+[Instalador REDIS SERVER](https://github.com/microsoftarchive/redis/releases/tag/win-3.2.100)
 
 Integrantes:
 Fierro Cantú Manuel Alejandro
