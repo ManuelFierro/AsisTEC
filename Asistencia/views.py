@@ -638,8 +638,18 @@ def resumen_dia(request):
 
 @login_required(login_url='/')
 def resumen(request):
-    nombreinicio = ('INICIO'+session['materia'])
 
+    usuario = authenticate(
+        username=session['numero_empleado'], password=session['numero_empleado'])
+    if usuario is not None:
+        login(request, usuario)
+        print("El usuario logeado es : ",
+              usuario.get_username(), usuario.get_short_name())
+    else:
+        return redirect('index')
+
+    nombreinicio = ('INICIO'+session['materia'])
+    
     if session['materia']:
         materia_clave = session['materia']
     else:
@@ -848,7 +858,7 @@ def reporte(request):
     worksheet.write('C10', 'Nombre', bold)
 
     queryalumnos = Asistencia.objects.values('nom_alu', 'num_control', 'asist').annotate(
-        Count('id')).order_by().filter(id__count__gt=0,fecha__month=int(mes),clave_matA=materia_clave).exclude(num_control__contains="CIERRE")
+        Count('id')).order_by().filter(id__count__gt=0,fecha__month=int(mes),clave_matA=materia_clave,asist=True).exclude(num_control__contains="CIERRE")
 
     print("QUERY ALUMNOS", queryalumnos.count())
     conteo_alumnos = queryalumnos.count()
@@ -871,9 +881,9 @@ def reporte(request):
         numero_control = alumno['num_control']
         coldiaA = 3
         for dia in range(dias):
-            if Asistencia.objects.filter(num_control=numero_control, fecha__month=hora.month, fecha__day=dia,clave_matA=materia_clave):
+            if Asistencia.objects.filter(num_control=numero_control, fecha__month=hora.month, fecha__day=dia,clave_matA=materia_clave,asist=True):
                 Asistencia_Mes = Asistencia.objects.get(
-                    num_control=numero_control, fecha__month=hora.month, fecha__day=dia,clave_matA=materia_clave)
+                    num_control=numero_control, fecha__month=hora.month, fecha__day=dia,clave_matA=materia_clave,asist=True)
                 print("ALUMNOS A ESE DIA:", Asistencia_Mes)
                 worksheet.write(rowasist, coldiaA, '\U0001F5F8', asistio)
                 coldiaA += 1
