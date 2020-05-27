@@ -166,7 +166,7 @@ def index(request):
                         return render(request, 'index2.html', {"materia": materia, "horaI": horaI, "horaF": horaF, "inicio": inicio})
             else:
                 horaI = "LIBRE"
-                horaF = "LIBREFuck"
+                horaF = "LIBRE"
                 materia = "NO TIENE MATERIAS AHORA"
                 nomateria = True
                 Asistencia.objects.filter(
@@ -790,6 +790,7 @@ def reporte(request):
     docente = session['numero_empleado']
     nom_docente = session['nombre']
     materia_clave = session['materia']
+    fechadoc = datetime.datetime.now()
 
     if Materias.objects.filter(clave_doc=session['numero_empleado'], clave_mat=materia_clave).first():
         materiaquery = Materias.objects.get(clave_doc=session['numero_empleado'], clave_mat=materia_clave)
@@ -846,7 +847,7 @@ def reporte(request):
         'A1', '             INSTITUTO TECNOLÓGICO SUPERIOR DE LERDO')
     worksheet.write('A2', '')
     worksheet.write(
-        'A3', 'DEPARTAMENTO ACADEMICO                ACTA DE ASISTENCIA DETALLADA MES '+ mes)
+        'A3', 'DEPARTAMENTO ACADEMICO                ACTA DE ASISTENCIA DETALLADA MES: '+  calendar.month_name[int(mes)].upper())
     worksheet.write('A4', 'CONTIENE:        TODOS LOS ALUMNOS')
     worksheet.write(
         'A5', 'CARRERA :      7   ING.INFORMATICA   IINF-2010-220                       PERIODO : ENE-JUN-2020')
@@ -892,6 +893,10 @@ def reporte(request):
                 worksheet.write(rowasist, coldiaA, '', noasistio)
                 coldiaA += 1
         rowasist += 1
+    worksheet.write('A44', 'ESTE DOCUMENTO NO ES VALIDO SI TIENE TACHADURAS O ENMENDADURAS') 
+    worksheet.write('A45', ' LERDO, DGO. a '+ str(datetime.datetime.today().strftime("%d de %B del %Y")))
+    worksheet.write('A46', '')
+    worksheet.write('A47', 'FIRMA DEL CATEDRATICO : _________________________________________ ')
     workbook.close()
 
     output.seek(0)
