@@ -22,7 +22,7 @@ pip install channels_redis
 pip install xlsxwriter
 ```
 
-En caso de que no se pueda instalar twisted, descargarlo de este enlace y colocarlo en la raíz del proyecto.
+En caso de que no se pueda instalar twisted, descargarlo de este [enlace](https://pypi.org/project/Twisted/#filesy) colocarlo en la raíz del proyecto.
 E instalarlo de la siguiente manera
 ```
 pip install “nombredelarchivo”
