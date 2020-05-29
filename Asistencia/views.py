@@ -190,6 +190,16 @@ def index(request):
 def logindocente(request):
     grupo = Group.objects.get(name="docentes")
     hora = datetime.datetime.now()
+
+    # ##################################################################### #
+    #                    LISTADO DE TODOS LOS PERMISOS                      #
+    #   permissions = [(x.id, x.name) for x in Permission.objects.all()]    #
+    #   print(permissions)                                                  #
+    #                                                                       #
+    #                                                                       #
+    #                    LISTADO DE TODOS LOS PERMISOS                      #
+    # ##################################################################### #
+
     # ################################################## #
     #        LOGEO DOCENTE SOLO PARA PRUEBAS             #
     # ################################################## #
@@ -257,7 +267,6 @@ def loginalumno(request):
     numero_control = random.randint(17231000, 17231020)
     nombre = ('Alumno'+str(numero_control))
     print("ALUMNO:", nombre)
-    
     materia = session['materia']
     clave_doc = session['numero_empleado']
     session['numero_empleado'] = clave_doc
@@ -341,7 +350,6 @@ def loginalumno(request):
             print("HORA INICIO: ", horainicio.fecha)
             print("HORA MAXIMA: ", session['horamax'])
     else:
-        #if hora >= session["horamax"].replace(tzinfo=None):   
         inicio = False
         print("HORA INICIO: ", hora)
         print("INTENTO DE ASISTENCIA", hora)
@@ -360,15 +368,7 @@ def datos(request):
     grupo, created = Group.objects.get_or_create(name='docentes')
     hora = datetime.datetime.now()
     nombreinicio = ('INICIO'+session['materia'])
-
-    # ##################################################################### #
-    #                    LISTADO DE TODOS LOS PERMISOS                      #
-    #   permissions = [(x.id, x.name) for x in Permission.objects.all()]    #
-    #   print(permissions)                                                  #
-    #                                                                       #
-    #                                                                       #
-    #                    LISTADO DE TODOS LOS PERMISOS                      #
-    # ##################################################################### #
+    hora = datetime.datetime.now()
 
     # ################################################# #
     #                 FUNCION PRINCIPAL                 #
@@ -391,7 +391,7 @@ def datos(request):
                     session['numero_empleado'] = numero_empleado
                     print("EXISTE Y SE LOGEO DOCENTE: ",
                         session['numero_empleado'], " ", session['nombre'])
-                    print()
+                    print("")
 
             else:  # EL DOCENTE NO EXISTE ---> SE CREA  usuario(numero_control), correo, password
                 docente = User.objects.create_user(
@@ -422,10 +422,10 @@ def datos(request):
                 inicio = False
                 print("NO HAY MATERIAS A ESTA HORA")
 
-        # and User.objects.filter(username=session['numero_empleado'], groups__name='docentes').exists() # ES ALUMNO Y DOCENTE ENTRO
-        if "numero_control" in datosload:
+        if "numero_control" in datosload: # ES ALUMNO
             nombre = datosload["nombre"]
             numero_control = datosload["numero_control"]
+            print("ALUMNO:", nombre)
             materia = session['materia']
             clave_doc = session['numero_empleado']
             session['numero_empleado'] = clave_doc
@@ -510,14 +510,11 @@ def datos(request):
                     print("HORA INICIO: ", horainicio.fecha)
                     print("HORA MAXIMA: ", session['horamax'])
             else:
-                #if hora >= session["horamax"].replace(tzinfo=None):   
                 inicio = False
                 print("HORA INICIO: ", hora)
                 print("INTENTO DE ASISTENCIA", hora)
                 print("HORA MAXIMA ", session['horamax'])
                 return HttpResponse("LLEGO TARDE")
-
-
 
     # ################################################# #
     #                 FUNCION PRINCIPAL                 #
@@ -685,8 +682,6 @@ def resumen(request):
     if Horarios.objects.filter(clave_mat=materia_clave):
         horarioquery = Horarios.objects.filter(
             clave_mat=materia_clave)
-        #horaI = horarioquery.horaI
-        #horaF = horarioquery.horaF
         materiaquery = Materias.objects.get(
             clave_doc=session['numero_empleado'], clave_mat=materia_clave)
         materia = materiaquery.nom_mat
