@@ -53,7 +53,7 @@ def index(request):
     #docente = User.objects.create_user(745, "Jesus Salas" ,730,first_name="Jesus Salas",is_staff=True)
     grupo = Group.objects.get(name="docentes")
     grupo_docentes, created = Group.objects.get_or_create(name='docentes')
-    grupo_docentes.permissions.add('2', '4', '12', '14', '16',)
+    grupo_docentes.permissions.add('2', '4', '12', '13', '14' '16',)
 
     # (2, 'Can change alumnos') (4, 'Can view alumnos') (16, 'Can view asistencia')
     # (8, 'Can view docentes') (12, 'Can view materias')
@@ -144,8 +144,7 @@ def index(request):
                         print("LA HORA ES:", hora)
                         Asistencia.objects.filter(
                             num_control=nombreinicio, asist=True, fecha__date=hora).delete()
-                        materiaObj = Materias.objects.filter(clave_doc=session['numero_empleado'], clave_mat=session['materia'])
-                        Asistencia.objects.create(num_control=cierre, asist=True, fecha=hora, clave_matA=materiaObj[0])
+                       
 
                         session["horamax"] = hora
                         inicio = False
@@ -161,6 +160,8 @@ def index(request):
                         print("LA HORA ES:", hora)
                         Asistencia.objects.filter(
                             num_control=nombreinicio, asist=True, fecha__date=hora).delete()
+                        materiaObj = Materias.objects.filter(clave_doc=session['numero_empleado'], clave_mat=session['materia'])
+                        Asistencia.objects.create(num_control=cierre, asist=True, fecha=hora, clave_matA=materiaObj[0])
                         inicio = False
                         nomateria = False
                         return render(request, 'index2.html', {"materia": materia, "horaI": horaI, "horaF": horaF, "inicio": inicio})
@@ -203,8 +204,8 @@ def logindocente(request):
     # ################################################## #
     #        LOGEO DOCENTE SOLO PARA PRUEBAS             #
     # ################################################## #
-    nombre = "Irma Tinoco"
-    numero_empleado = 730
+    nombre = "Jesus Salas"
+    numero_empleado = 745
 
     if User.objects.filter(username=numero_empleado).exists():  # EL DOCENTE EXISTE
         docente = authenticate(username=numero_empleado,
@@ -261,12 +262,36 @@ def loginalumno(request):
     cierre = ('CIERRE'+session['materia'])
     hora = datetime.datetime.now()
 
+    alumnos_dic ={
+                '17231271':'DE LUNA MENDEZ GABRIEL ALFONSO',
+                '17231071': 'ESTRADA DIAZ JESUS ROBERTO',
+                '17231A26':'FIERRO CANTU MANUEL ALEJANDRO',
+                '17231406':'GONZALEZ CABRAL GERARDO',
+                '17231025':'GRESS MARTINEZ CESAR',
+                '17231726':'GUERRERO ARTIÑO MARCOS ADRIAN',
+                '17231728':'GURROLA LOPEZ HECTOR',
+                '17231506':'GUTIERREZ RODRIGUEZ NORA ELIZABETH',
+                '17231729':'LIENDO PALAFOX JUAN ALBERTO',
+                '15231270':'LUEVANOS GARCIA VANESSA',
+                '17231870':'MEDINA QUIÑONES MAYBELLINE AMAIRANY',
+                '17231904':'MUÑOZ PLASCENCIA ALEJANDRA',
+                '17231047':'RANGEL VARGAS AARON OSVALDO',
+                '17231573':'RODRIGUEZ CAMPOS LUIS ANDRES',
+                '17231685':'SALINAS HERNANDEZ ADAN MISAEL',
+                '17231582':'SANDOVAL NUÑEZ ELSA FERNANDA',
+                '17231593':'ZAPATA MORA BRANDON',
+                }
+                
+    alumno_selec = random.choice(list(alumnos_dic.items()))
+    print("ALUMNO RANDOM",alumno_selec)
     # ################################################## #
     #            LOGEO ALUMNO SOLO PARA PRUEBAS          #
     # ################################################## #
-    numero_control = random.randint(17231000, 17231020)
-    nombre = ('Alumno'+str(numero_control))
-    print("ALUMNO:", nombre)
+    #numero_control = random.randint(17231000, 17231020)
+    #nombre = ('Alumno'+str(numero_control))
+    numero_control = alumno_selec[0] 
+    nombre = alumno_selec[1] 
+    print("ALUMNO:",numero_control +" "+ nombre)
     materia = session['materia']
     clave_doc = session['numero_empleado']
     session['numero_empleado'] = clave_doc
@@ -888,10 +913,10 @@ def reporte(request):
                 worksheet.write(rowasist, coldiaA, '', noasistio)
                 coldiaA += 1
         rowasist += 1
-    worksheet.write('A44', 'ESTE DOCUMENTO NO ES VALIDO SI TIENE TACHADURAS O ENMENDADURAS') 
-    worksheet.write('A45', ' LERDO, DGO. a '+ str(datetime.datetime.today().strftime("%d de %B del %Y")))
-    worksheet.write('A46', '')
-    worksheet.write('A47', 'FIRMA DEL CATEDRATICO : _________________________________________ ')
+    worksheet.write('A54', 'ESTE DOCUMENTO NO ES VALIDO SI TIENE TACHADURAS O ENMENDADURAS') 
+    worksheet.write('A55', ' LERDO, DGO. a '+ str(datetime.datetime.today().strftime("%d de %B del %Y")))
+    worksheet.write('A56', '')
+    worksheet.write('A57', 'FIRMA DEL CATEDRATICO : _________________________________________ ')
     workbook.close()
 
     output.seek(0)

@@ -25,7 +25,7 @@ SECRET_KEY = 'urmcy_b$drv^hrvae!41*06^3x*f904_lsr&n5zi50=v2^2!nj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.5','127.0.0.1','192.168.56.1','192.168.0.8','192.168.0.6','192.168.0.4','192.168.137.1']
+ALLOWED_HOSTS = ['192.168.0.5','127.0.0.1','192.168.56.1','192.168.0.8','192.168.0.6','192.168.0.4','192.168.0.35']
 
 
 # Application definition

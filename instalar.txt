@@ -1,0 +1,11 @@
+pip install django
+pip install twisted
+pip install channels
+pip install channels_redis
+pip install xlsxwriter
+
+si twisted no se puede instalar hacer lo siguiente:
+pip install Twisted-20.3.0-cp38-cp38-win_amd64.whl
+
+Para correr el servidor
+python manage.py runserver 0.0.0.0:8000
